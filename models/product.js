@@ -6,7 +6,7 @@ const p = path.join(
     path.dirname(process.mainModule.filename),
     'data',
     'products.json'
-); s
+);
 
 module.exports = class Product {
     constructor(title) {
