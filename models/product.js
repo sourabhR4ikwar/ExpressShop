@@ -9,29 +9,13 @@ const p = path.join(
 );
 
 module.exports = class Product {
-    constructor(title, imageUrl, price, description) {
+    constructor(id, title, imageUrl, price, description) {
+        this.id = id;
         this.title = title;
         this.imageUrl = imageUrl;
         this.price = price;
         this.description = description;
     }
-
-    save() {
-        // products.push(this);
-        this.id = Math.random().toString();
-        fs.readFile(p, (err, data) => {
-            let products = [];
-            if (!err) {
-                products = JSON.parse(data);
-            }
-            products.push(this);
-            fs.writeFile(p, JSON.stringify(products), (err) => {
-                console.log(err);
-            });
-        });
-
-    }
-
     static fetchAll(cb) {
         fs.readFile(p, (err, data) => {
             if (err) {
@@ -40,6 +24,32 @@ module.exports = class Product {
             cb(JSON.parse(data));
         });
 
+    }
+    save() {
+        // products.push(this);
+        this.constructor.fetchAll(products => {
+            const existingProductIndex = products.findIndex(p => p.id === this.id);
+            const updatedProducts = [...products];
+            if(existingProductIndex){
+                updatedProducts[existingProductIndex] = this;
+                console.log(updatedProducts);
+                fs.writeFileSync(p, JSON.stringify(updatedProducts), (err)=>{
+                    console.log(err);
+                });
+            }else{
+                this.id = Math.random().toString();
+                fs.readFile(p, (err, data) => {
+                    let products = [];
+                    if (!err) {
+                        products = JSON.parse(data);
+                    }
+                    products.push(this);
+                    fs.writeFile(p, JSON.stringify(products), (err) => {
+                        console.log(err);
+                    });
+                });
+            }
+        });
     }
 
     static findById(id, cb){
