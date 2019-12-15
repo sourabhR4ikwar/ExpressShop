@@ -30,9 +30,10 @@ module.exports = class Product {
         this.constructor.fetchAll(products => {
             const existingProductIndex = products.findIndex(p => p.id === this.id);
             const updatedProducts = [...products];
-            if(existingProductIndex){
+            // console.log(existingProductIndex);
+            if(existingProductIndex != -1){
                 updatedProducts[existingProductIndex] = this;
-                console.log(updatedProducts);
+                // console.log(updatedProducts);
                 fs.writeFileSync(p, JSON.stringify(updatedProducts), (err)=>{
                     console.log(err);
                 });
