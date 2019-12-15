@@ -52,6 +52,18 @@ module.exports = class Product {
         });
     }
 
+    static delete(id){
+        this.fetchAll(products => {
+            const index = products.findIndex(p => p.id === id);
+            let updatedProducts = [...products];
+            updatedProducts.splice(index, 1);
+            console.log(updatedProducts);
+            fs.writeFile(p, JSON.stringify(updatedProducts),(err)=>{
+                console.log(err);
+            });
+        });
+    }
+
     static findById(id, cb){
         this.fetchAll(products => {
             const product = products.find(p => p.id === id);

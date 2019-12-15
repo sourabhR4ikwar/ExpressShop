@@ -53,3 +53,8 @@ exports.getProducts = (req, res, next) => {
     });
 };
 
+
+exports.deleteProduct = (req, res, next) => {
+    Product.delete(req.body.prodId);
+    res.redirect('/');
+};
