@@ -60,7 +60,10 @@ module.exports = class Product {
             updatedProducts.splice(index, 1);
             console.log(updatedProducts);
             fs.writeFile(p, JSON.stringify(updatedProducts),(err)=>{
-                console.log(err);
+                if(err){
+                    console.log(err);
+                }
+                
             });
         });
     }
